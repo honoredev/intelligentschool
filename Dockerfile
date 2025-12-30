@@ -18,13 +18,12 @@ RUN rm -rf prisma
 # Build the application
 RUN npm run build
 
-# Copy standalone output
+# Copy standalone output to root
 RUN cp -r .next/standalone/* ./
 
-# Copy static files only if they don't already exist in standalone
-RUN if [ ! -d "./.next/static" ]; then \
-      mkdir -p .next && cp -r .next/static .next/; \
-    fi
+# Copy public and static files to correct locations
+RUN cp -r public ./public 2>/dev/null || true
+RUN cp -r .next/static ./.next/static 2>/dev/null || true
 
 # Set environment variables
 ENV NODE_ENV=production
@@ -34,5 +33,5 @@ ENV PORT=3000
 # Expose port
 EXPOSE 3000
 
-# Start the application
-CMD ["npm", "start"]
+# Use the standalone server that Next.js generates
+CMD ["node", "server.js"]
