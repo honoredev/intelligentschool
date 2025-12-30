@@ -1,16 +1,33 @@
-import { PrismaClient } from '@prisma/client'
-
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined
+// Simple mock for school system - no database required
+export const prisma = {
+  product: {
+    findMany: () => Promise.resolve([]),
+    create: () => Promise.resolve({}),
+    update: () => Promise.resolve({}),
+    delete: () => Promise.resolve({})
+  },
+  customer: {
+    findMany: () => Promise.resolve([]),
+    create: () => Promise.resolve({}),
+    update: () => Promise.resolve({}),
+    delete: () => Promise.resolve({})
+  },
+  sale: {
+    findMany: () => Promise.resolve([]),
+    create: () => Promise.resolve({}),
+    update: () => Promise.resolve({}),
+    delete: () => Promise.resolve({})
+  },
+  payment: {
+    findMany: () => Promise.resolve([]),
+    create: () => Promise.resolve({}),
+    update: () => Promise.resolve({}),
+    delete: () => Promise.resolve({})
+  },
+  user: {
+    findMany: () => Promise.resolve([]),
+    create: () => Promise.resolve({}),
+    update: () => Promise.resolve({}),
+    delete: () => Promise.resolve({})
+  }
 }
-
-export const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient({
-    log: ['query'],
-  })
-
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
-
-
-
