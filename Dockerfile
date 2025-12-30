@@ -26,8 +26,6 @@ RUN if [ ! -d "./.next/static" ]; then \
       mkdir -p .next && cp -r .next/static .next/; \
     fi
 
-# Public folder is already included in standalone output - no need to copy
-
 # Set environment variables
 ENV NODE_ENV=production
 ENV HOSTNAME="0.0.0.0"
