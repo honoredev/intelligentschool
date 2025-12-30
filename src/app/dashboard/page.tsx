@@ -22,7 +22,9 @@ import {
   Video,
   School,
   ClipboardList,
-  Plus
+  Plus,
+  Menu,
+  X
 } from "lucide-react";
 import EnvironmentStatus from "../../../components/EnvironmentStatus";
 import ESP32Dashboard from "../../../components/ESP32Dashboard";
@@ -30,6 +32,7 @@ import LiveMonitoring from "../../../components/LiveMonitoring";
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const stats = [
     { title: "Total Students", value: "1,247", change: "+23", icon: GraduationCap, color: "text-blue-400" },
@@ -518,11 +521,31 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <div className="w-64 bg-gray-900 text-white flex-shrink-0">
+      <div className={`w-64 bg-gray-900 text-white flex-shrink-0 fixed lg:relative inset-y-0 left-0 z-50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+        isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+      } lg:block`}>
         <div className="p-6">
-          <h1 className="text-2xl font-bold text-blue-400">Intelligent School</h1>
-          <p className="text-gray-400 text-sm mt-1">Smart Academic Management</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-blue-400">Intelligent School</h1>
+              <p className="text-gray-400 text-sm mt-1">Smart Academic Management</p>
+            </div>
+            <button 
+              className="lg:hidden text-gray-400 hover:text-white"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
         </div>
         
         <nav className="mt-8">
@@ -531,7 +554,10 @@ const Dashboard = () => {
             return (
               <button
                 key={item.id}
-                onClick={() => setActiveSection(item.id)}
+                onClick={() => {
+                  setActiveSection(item.id);
+                  setIsMobileMenuOpen(false);
+                }}
                 className={`w-full flex items-center px-6 py-3 text-left transition-colors ${
                   activeSection === item.id
                     ? "bg-blue-500 text-white font-medium"
@@ -547,32 +573,43 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col lg:ml-0">
         {/* Header */}
-        <header className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+        <header className="bg-white shadow-sm border-b border-gray-200 px-4 lg:px-6 py-4">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Intelligent School Academic Management System</h1>
-              <p className="text-gray-600 mt-1">Empowering education through smart monitoring.</p>
+            <div className="flex items-center">
+              <button 
+                className="lg:hidden mr-4 text-gray-600 hover:text-gray-900"
+                onClick={() => setIsMobileMenuOpen(true)}
+              >
+                <Menu className="w-6 h-6" />
+              </button>
+              <div>
+                <h1 className="text-xl lg:text-2xl font-bold text-gray-900">Intelligent School Academic Management System</h1>
+                <p className="text-gray-600 mt-1 hidden sm:block">Empowering education through smart monitoring.</p>
+              </div>
             </div>
             
-            <div className="flex items-center space-x-4">
-              <Button variant="outline" size="sm" className="text-gray-600">
+            <div className="flex items-center space-x-2 lg:space-x-4">
+              <Button variant="outline" size="sm" className="text-gray-600 hidden sm:flex">
                 <Bell className="w-4 h-4 mr-2" />
                 Notifications
+              </Button>
+              <Button variant="outline" size="sm" className="text-gray-600 sm:hidden">
+                <Bell className="w-4 h-4" />
               </Button>
               <div className="flex items-center space-x-2">
                 <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                   <User className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-gray-700 font-medium">Admin User</span>
+                <span className="text-gray-700 font-medium hidden sm:block">Admin User</span>
               </div>
             </div>
           </div>
         </header>
 
         {/* Content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-4 lg:p-6">
           {activeSection === "dashboard" && renderDashboard()}
           {activeSection === "students" && renderPlaceholder("Student Management", GraduationCap)}
           {activeSection === "teachers" && renderPlaceholder("Teacher Management", Users)}
