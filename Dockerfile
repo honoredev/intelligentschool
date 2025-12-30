@@ -11,8 +11,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install --legacy-peer-deps
 
-# Copy source code
+# Copy source code (exclude prisma to avoid build issues)
 COPY . .
+RUN rm -rf prisma
 
 # Build the application
 RUN npm run build
