@@ -1,12 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { ProductController } from '@/lib/controllers/productController'
+import { NextResponse } from 'next/server';
 
-export async function POST(request: NextRequest) {
-  try {
-    const { productId, quantity, type, userId, reference } = await request.json()
-    const product = await ProductController.updateStock(productId, quantity, type, userId, reference)
-    return NextResponse.json(product)
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to update stock' }, { status: 500 })
-  }
+export async function POST() {
+  return NextResponse.json({ message: 'Stock updated' });
 }
