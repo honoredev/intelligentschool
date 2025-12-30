@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: intelligent-school
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MEDIAMTX_SERVER
+        value: localhost:8888

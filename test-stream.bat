@@ -1,0 +1,13 @@
+@echo off
+echo Testing MediaMTX connection...
+netstat -an | findstr :9997
+echo.
+echo Testing RTSP port...
+netstat -an | findstr :8554
+echo.
+echo Testing HLS port...
+netstat -an | findstr :8888
+echo.
+echo Opening HLS URL in browser...
+start http://localhost:8888/hikvision/index.m3u8
+pause

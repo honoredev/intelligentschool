@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BizSmart Icon Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        canvas { border: 1px solid #ccc; margin: 10px; }
+        .icon-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; }
+    </style>
+</head>
+<body>
+    <h1>BizSmart PWA Icon Generator</h1>
+    <p>This generates placeholder icons. Replace with your actual BizSmart logo.</p>
+    
+    <div class="icon-grid" id="iconGrid"></div>
+    
+    <script>
+        const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        const iconGrid = document.getElementById('iconGrid');
+        
+        sizes.forEach(size => {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Background
+            ctx.fillStyle = '#eab308';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Text
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${size/4}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('BS', size/2, size/2);
+            
+            const container = document.createElement('div');
+            container.innerHTML = `<h3>${size}x${size}</h3>`;
+            container.appendChild(canvas);
+            
+            const link = document.createElement('a');
+            link.download = `icon-${size}x${size}.png`;
+            link.href = canvas.toDataURL();
+            link.textContent = 'Download';
+            link.style.display = 'block';
+            link.style.marginTop = '10px';
+            
+            container.appendChild(link);
+            iconGrid.appendChild(container);
+        });
+    </script>
+</body>
+</html>

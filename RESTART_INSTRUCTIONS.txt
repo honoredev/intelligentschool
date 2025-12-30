@@ -1,0 +1,7 @@
+1. Stop your current Next.js server (Ctrl+C)
+2. Run: npm run dev
+3. Go to: http://localhost:3000/dashboard
+4. Click on "Environment" or "Live Monitoring" tabs
+
+If still not working, also run:
+npm install hls.js

@@ -1,0 +1,4 @@
+# Add this to your mediamtx.yml under hls section:
+hlsAllowOrigin: '*'
+# Also add under api section:
+apiAllowOrigin: '*'
