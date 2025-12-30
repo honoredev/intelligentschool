@@ -20,7 +20,13 @@ RUN npm run build
 
 # Copy standalone output
 RUN cp -r .next/standalone/* ./
-RUN cp -r .next/static ./.next/static
+
+# Copy static files only if they don't already exist in standalone
+RUN if [ ! -d "./.next/static" ]; then \
+      mkdir -p .next && cp -r .next/static .next/; \
+    fi
+
+# Copy public files
 RUN cp -r public ./public
 
 # Expose port
