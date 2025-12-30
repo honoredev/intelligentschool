@@ -26,16 +26,15 @@ RUN if [ ! -d "./.next/static" ]; then \
       mkdir -p .next && cp -r .next/static .next/; \
     fi
 
-# Copy public files
-RUN cp -r public ./public
+# Public folder is already included in standalone output - no need to copy
+
+# Set environment variables
+ENV NODE_ENV=production
+ENV HOSTNAME="0.0.0.0"
+ENV PORT=3000
 
 # Expose port
 EXPOSE 3000
 
-# Set environment variables
-ENV NODE_ENV=production
-ENV PORT=3000
-ENV HOSTNAME=0.0.0.0
-
 # Start the application
-CMD ["node", "server.js"]
+CMD ["npm", "start"]
